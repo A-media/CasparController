@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>HDA Caspar Controller - LOG</title>
+    <script type="text/JavaScript">
+      const {shell}   = require('electron');
+      const {ipcRenderer} = require('electron')
+      ipcRenderer.on('asynchronous-reply', (event, data, err) => {
+        if (data == "clr" && data == err){
+          $('body').empty();
+        }
+        else{
+          var d = new Date();
+          var curr_date   = ("0"+d.getDate()).slice(-2);
+          var curr_month  = ("0"+d.getMonth()).slice(-2);
+          var curr_year   = d.getFullYear();
+          var curr_houre  = ("0"+d.getHours()).slice(-2);
+          var curr_minute = ("0"+d.getMinutes()).slice(-2);
+          var curr_second = ("0"+d.getSeconds()).slice(-2);
+
+          time = curr_year + "-" + curr_month + "-" + curr_date + " " + curr_houre + ":" + curr_minute + ":" + curr_second;
+
+          if (err){
+            $('body').append('<p><span class="time">'+time+'</span><span class="error">ERROR</span> '+err+'</p>');
+          }
+          if (data !== null){
+            $('body').append('<p><span class="time">'+time+'</span>'+data+'</p>');
+          }
+        }
+        window.scrollTo(0,document.body.scrollHeight);
+      })
+    </script>
+    <style>
+    @font-face {
+      font-family: texgyrecursor;
+      src: url(assets/css/fonts/texgyrecursor-regular.otf);
+    }
+    body{ background: #1c2025; color: #fff; font-family: texgyrecursor; font-size: 8pt;}
+    .error{ font-weight: bold; color: red; margin-right: 20px;}
+    .time{ margin-right: 20px;}
+    </style>
+  </head>
+  <body>
+  </body>
+  <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+  <script src="scripts/jquery-3.2.0.min.js"></script>
+  <script>if (window.module) module = window.module;</script>
+</html>

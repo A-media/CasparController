@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>HDA Caspar Controller</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+  </head>
+  <body>
+    <div id="message"></div>
+    <div id="menu">
+      <ul>
+        <li><a href="#" onclick="loadContent('home');">Hem</a></li>
+        <li><a href="#" onclick="loadContent('settings');">Intällningar</a></li>
+        <li><a href="#" onclick='OpenURL(settings.get("ccg.ip"));'>Webbsidan</a></li>
+      </ul>
+      <p>></p>
+    </div>
+    <div id="content">
+
+
+      <!-- Home page -->
+
+
+      <div id="homepage">
+        <div id="xkey-frame">
+          <table class="xkeys">
+            <tr>
+              <td class="btn_run" onclick="ccgRun();"><img src="assets/img/icons/pwr.jpg"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="btn" onclick="previousOnList();"><img src="assets/img/icons/prev.jpg"></td>
+              <td class="btn" onclick="nextOnList();"><img src="assets/img/icons/next.jpg"></td>
+              <td class="btn" onclick="sendPauseToCCG();"><img src="assets/img/icons/pause.jpg"></td>
+              <td class="btn" onclick="sendPlayToCCG();"><img src="assets/img/icons/play.jpg"></td>
+            </tr>
+            <tr>
+              <td class="btn" onclick="nudge('backward', 10);"><img src="assets/img/icons/n10b.jpg"></td>
+              <td class="btn" onclick="nudge('forward', 10);"><img src="assets/img/icons/n10f.jpg"></td>
+              <td class="btn" onclick="nudge('backward', 1);"><img src="assets/img/icons/n1b.jpg"></td>
+              <td class="btn" onclick="nudge('forward', 1);"><img src="assets/img/icons/n1f.jpg"></td>
+            </tr>
+          </table>
+          <table class="xkeys">
+            <tr>
+              <td class="btn_l" onclick="ChannelClock();" id="btn_clock"><img class="btn_l_img" src="assets/img/icons/clock.jpg"></td>
+              <td class="btn_l" onclick="ChannelLogo();" id="btn_logo"><img class="btn_l_img" src="assets/img/icons/logo.jpg"></td>
+            </tr>
+          </table>
+          <table class="xkeys">
+            <tr>
+              <td class="btn_prompter_run" onclick="PrompterRun();"><img src="assets/img/icons/prompter.jpg"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="btn_prompter" onclick="sendPrompterCommand('previous');"><img src="assets/img/icons/prev.jpg"></td>
+              <td class="btn_prompter" onclick="sendPrompterCommand('next');"><img src="assets/img/icons/next.jpg"></td>
+              <td class="btn_prompter" onclick="sendPrompterCommand('minus');"><img src="assets/img/icons/m1.jpg"></td>
+              <td class="btn_prompter" onclick="sendPrompterCommand('plus');"><img src="assets/img/icons/p1.jpg"></td>
+            </tr>
+          </table>
+        </div>
+        <div id="rundown-list"></div>
+        <div id="connections">
+          <div id="ccg"><span id="ccg_dot">.</span></div>
+          <div id="atem"><span id="atem_dot">.</span></div>
+        </div>
+        </div>
+      </div>
+
+
+    <!--Settings page -->
+
+
+      <div id="settingspage" class="hidden">
+        <form class="box">
+          <h1>Inställningar :</h1>
+          <h2>ATEM</h2>
+          <label>
+            <span class="formSpan">Ip-address</span>
+            <input type="text" class="input_text" name="atemIp"/>
+            <span class="formSpan">Modell</span>
+            <select name="atemtype">
+              <option value="6">Television studio</option>
+              <option value="8">production studio</option>
+              <option value="10">ATEM 1M/E</option>
+              <option value="20">ATEM 2M/E</option>
+            </select>
+          </label>
+          <h2>CasparCG</h2>
+          <label>
+            <span class="formSpan">Ip-address</span>
+            <input type="text" class="input_text" name="ccgIp"/>
+            <span class="formSpan">Playout input</span>
+            <select name="ccgInput"></select>
+          </label>
+          <h2>Programlogotyp</h2>
+          <label>
+            <span class="formSpan">Postition</span>
+            <div class="radios">
+              <div class="radio"><input type="radio" id="logoleft" name="logopos" value="left"/><label for="logoleft"><span></span>Vänster</label></div>
+              <div class="radio"><input type="radio" id="logoright" name="logopos" value="right" /><label for="logoright"><span></span>Höger</label></div>
+            </div>
+            <span class="formSpan">Övergång</span>
+            <select name="logoTransition">
+              <option value="cut">Cut</option>
+              <option value="fade">Fade</option>
+            </select>
+            <span class="formSpan">Transparens</span>
+            <input type="number" min="0" max="100" value="100" name="logoopacity" onkeypress="return isNumber(event)" onkeyup="this.value = minmax(this.value, 0, 100)">
+          </label>
+          <h2>Programklocka</h2>
+          <label>
+            <span class="formSpan">Postition</span>
+            <div class="radios">
+              <div class="radio"><input type="radio" value="left_top" id="clocklefttop" name="clockpos" /><label for="clocklefttop"><span></span>Vänster top:</label></div>
+              <div class="radio"><input type="radio" value="right_top" id="clockrighttop" name="clockpos" /> <label for="clockrighttop"><span></span>Höger top:</label></div>
+              <div class="radio"><input type="radio" value="left_bottom" id="clockleftbottom" name="clockpos"/><label for="clockleftbottom"><span></span>Vänster ner:</label></div>
+              <div class="radio"><input type="radio" value="right_bottom" id="clockrightbottom" name="clockpos" /><label for="clockrightbottom"><span></span>Höger ner:</label></div>
+            </div>
+            <span class="formSpan">Övergång</span>
+            <select name="clockTransition">
+              <option value="cut">Cut</option>
+              <option value="fade">Fade</option>
+              <option value="slide">Slide</option>
+            </select>
+            <div class="formRow">
+              <span class="formSpan">Textfärg</span>
+              <input class="jscolor" name="clockcolor" id="color">
+            </div>
+            <div class="formRow">
+              <span class="formSpan">Bakgrund</span>
+              <input class="jscolor" value="532f91" name="clocbgkcolor" id="bgColor"><p class="middle">Transparens</p><input type="number" min="0" max="100" value="100" name="clockopacity" onkeypress="return isNumber(event)" onkeyup="this.value = minmax(this.value, 0, 100)">
+            </label>
+          </div>
+          <input type="button" class="button" value="Spara" onclick="saveSettings();"/>
+        </form>
+      </div>
+
+
+    <img id="hda" src="assets/img/hd_white.png">
+  </body>
+  <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+  <script src="scripts/jquery-3.2.0.min.js"></script>
+  <script src="scripts/controller.js" type="text/JavaScript"></script>
+  <script src="scripts/teleprompter.js" type="text/JavaScript"></script>
+  <script src="scripts/jscolor.js"></script>
+  <script>if (window.module) module = window.module;</script>
+</html>

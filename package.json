@@ -1,0 +1,32 @@
+{
+  "name": "CasparController",
+  "version": "1.0.4",
+  "description": "A CasparCG Controller application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager . CasparController --platform=darwin --arch=x64 --version=1.0.4 --overwrite --icon=assets/app-icon/ccg.icns --electron-version=1.6.2"
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "CasparCG",
+    "Controller",
+    "Rundown",
+    "playlist"
+  ],
+  "author": "Andreas Andersson",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "~1.6.2",
+    "electron-rebuild": "^1.5.7"
+  },
+  "dependencies": {
+    "atem": "^0.1.7",
+    "caspar-cg": "^0.1.0",
+    "electron-packager": "^8.7.2",
+    "electron-settings": "^3.0.14",
+    "jquery": "^3.2.1",
+    "node-hid": "^0.5.4",
+    "node-xkeys": "0.0.4"
+  }
+}
